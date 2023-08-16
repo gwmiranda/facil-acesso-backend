@@ -8,6 +8,7 @@ import org.unibrasil.repository.UsuarioRepository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class UsuarioService {
@@ -49,5 +50,9 @@ public class UsuarioService {
     @Transactional
     public boolean deletarPorId(long id) {
         return usuarioRepository.deleteById(id);
+    }
+
+    public Optional<Usuario> realizarLogin(String login, String senha) {
+        return usuarioRepository.buscarUsuario(login, senha);
     }
 }
