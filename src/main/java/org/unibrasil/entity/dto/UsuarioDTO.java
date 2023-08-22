@@ -10,6 +10,7 @@ public class UsuarioDTO {
     private String cpf;
     private String acessibilidade;
     private LocalDate dataNascimento;
+    private String email;
 
     public String getLogin() {
         return login;
@@ -33,5 +34,9 @@ public class UsuarioDTO {
 
     public LocalDate getDataNascimento() {
         return dataNascimento;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

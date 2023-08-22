@@ -12,9 +12,14 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(unique = true)
     private String login;
     private String senha;
     private String telefone;
+    @Column(unique = true)
+    private String email;
+    @Column(unique = true)
     private String cpf;
     private String acessibilidade;
     private LocalDate dataNascimento;
@@ -32,6 +37,7 @@ public class Usuario {
         this.cpf = usuarioDTO.getCpf();
         this.acessibilidade = usuarioDTO.getAcessibilidade();
         this.dataNascimento = usuarioDTO.getDataNascimento();
+        this.email = usuarioDTO.getEmail();
     }
 
     public long getId() {
@@ -108,5 +114,13 @@ public class Usuario {
 
     public void setDataRemocao(Instant dataRemocao) {
         this.dataRemocao = dataRemocao;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -6,7 +6,11 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import jakarta.xml.bind.ValidationException;
+import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
+import org.unibrasil.api.exception.ErrorResponse;
+import org.unibrasil.api.exception.ResponseException;
 import org.unibrasil.entity.Auth;
 import org.unibrasil.entity.dto.UsuarioDTO;
 import org.unibrasil.service.TokenService;
@@ -24,17 +28,30 @@ public class LoginApi {
     TokenService tokenService;
 
     @POST
-    public Auth realizarLogin(UsuarioDTO usuarioDTO) throws ValidationException {
-        var usuario = usuarioService.realizarLogin(usuarioDTO.getLogin(), usuarioDTO.getSenha());
+    public Response realizarLogin(UsuarioDTO usuarioDTO) {
+        try {
+            var usuario = usuarioService.realizarLogin(usuarioDTO.getLogin(), usuarioDTO.getSenha());
 
-        if (usuario.isEmpty()) {
-            throw new ValidationException("Usuário ou senha invalido");
+            var auth = new Auth();
+            auth.setNomeUsuario(usuario.getLogin());
+            auth.setToken(tokenService.generate(usuario.getLogin()));
+
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(auth)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+
+        } catch (ValidationException e) {
+            throw new ResponseException(e.getMessage(), e);
         }
+    }
 
-        var response = new Auth();
-        response.setNomeUsuario(usuario.get().getLogin());
-        response.setToken(tokenService.generate(usuario.get().getLogin()));
-
-        return response;
+    @ServerExceptionMapper
+    public Response mapperException(ResponseException ex) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity(new ErrorResponse(ex.getMessage()))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 }
