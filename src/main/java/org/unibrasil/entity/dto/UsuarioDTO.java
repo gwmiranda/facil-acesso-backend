@@ -1,6 +1,7 @@
 package org.unibrasil.entity.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UsuarioDTO {
 
@@ -8,7 +9,7 @@ public class UsuarioDTO {
     private String senha;
     private String telefone;
     private String cpf;
-    private String acessibilidade;
+    private List<Long> acessibilidade;
     private LocalDate dataNascimento;
     private String email;
 
@@ -28,7 +29,7 @@ public class UsuarioDTO {
         return cpf;
     }
 
-    public String getAcessibilidade() {
+    public List<Long> getAcessibilidade() {
         return acessibilidade;
     }
 

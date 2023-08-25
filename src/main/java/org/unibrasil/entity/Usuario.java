@@ -5,6 +5,8 @@ import org.unibrasil.entity.dto.UsuarioDTO;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Usuario {
@@ -21,7 +23,12 @@ public class Usuario {
     private String email;
     @Column(unique = true)
     private String cpf;
-    private String acessibilidade;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_acessibilidade",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "acessibilidade_id"))
+    private List<Acessibilidade> acessibilidades;
     private LocalDate dataNascimento;
     private Instant dataCriacao;
     private Instant dataEdicao;
@@ -35,7 +42,7 @@ public class Usuario {
         this.senha = usuarioDTO.getSenha();
         this.telefone = usuarioDTO.getTelefone();
         this.cpf = usuarioDTO.getCpf();
-        this.acessibilidade = usuarioDTO.getAcessibilidade();
+        this.acessibilidades = usuarioDTO.getAcessibilidade().stream().map(Acessibilidade::new).collect(Collectors.toList());
         this.dataNascimento = usuarioDTO.getDataNascimento();
         this.email = usuarioDTO.getEmail();
     }
@@ -76,12 +83,12 @@ public class Usuario {
         this.cpf = cpf;
     }
 
-    public String getAcessibilidade() {
-        return acessibilidade;
+    public List<Acessibilidade> getAcessibilidades() {
+        return acessibilidades;
     }
 
-    public void setAcessibilidade(String acessibilidade) {
-        this.acessibilidade = acessibilidade;
+    public void setAcessibilidades(List<Acessibilidade> acessibilidade) {
+        this.acessibilidades = acessibilidade;
     }
 
     public LocalDate getDataNascimento() {

@@ -2,12 +2,19 @@ package org.unibrasil.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.unibrasil.entity.Acessibilidade;
 import org.unibrasil.entity.Usuario;
 
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
 public class UsuarioRepository implements PanacheRepository<Usuario> {
+
+    public List<Usuario> buscarTodos() {
+        var sql = "SELECT u FROM Usuario u WHERE u.dataRemocao IS NULL";
+        return find(sql).stream().toList();
+    }
 
     public Optional<Usuario> buscarUsuario(String login, String senha) {
         var sql = "SELECT u FROM Usuario u WHERE u.login = ?1 AND u.senha = ?2";

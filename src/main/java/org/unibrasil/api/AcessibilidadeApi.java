@@ -9,24 +9,24 @@ import jakarta.xml.bind.ValidationException;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 import org.unibrasil.api.exception.ErrorResponse;
 import org.unibrasil.api.exception.ResponseException;
-import org.unibrasil.entity.AlterarSenhaRequest;
+import org.unibrasil.entity.Acessibilidade;
 import org.unibrasil.entity.Usuario;
-import org.unibrasil.entity.dto.UsuarioDTO;
-import org.unibrasil.service.UsuarioService;
+import org.unibrasil.entity.dto.AcessibilidadeDTO;
+import org.unibrasil.service.AcessibilidadeService;
 
-@Path("/api/usuario")
+@Path("/api/acessibilidade")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class UsuarioApi {
+public class AcessibilidadeApi {
 
     @Inject
-    UsuarioService usuarioService;
+    AcessibilidadeService acessibilidadeService;
 
     @POST
     @PermitAll
-    public Response criarUsuario(UsuarioDTO usuarioDTO)  {
+    public Response criarAcessibilidade(AcessibilidadeDTO acessibilidadeDTO)  {
         try {
-            usuarioService.criarUsuario(new Usuario(usuarioDTO));
+            acessibilidadeService.gravarAcessibilidade(new Acessibilidade(acessibilidadeDTO.getDescricao()));
 
             return Response.status(Response.Status.CREATED)
                     .type(MediaType.APPLICATION_JSON)
@@ -39,10 +39,10 @@ public class UsuarioApi {
 
     @GET
     public Response buscarTodos() {
-        var usuarios = usuarioService.buscarTodosUsuarios();
+        var acessibilidades = acessibilidadeService.buscarTodasAcessibilidades();
 
         return Response.status(Response.Status.OK)
-                .entity(usuarios)
+                .entity(acessibilidades)
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }
@@ -51,10 +51,10 @@ public class UsuarioApi {
     @Path("/{id}")
     public Response buscarPorId(@PathParam("id") long id) {
         try {
-            var usuario = usuarioService.buscarPorId(id);
+            var acessibilidade = acessibilidadeService.buscarPorId(id);
 
             return Response.status(Response.Status.OK)
-                    .entity(usuario)
+                    .entity(acessibilidade)
                     .type(MediaType.APPLICATION_JSON)
                     .build();
         } catch (ValidationException e) {
@@ -64,13 +64,12 @@ public class UsuarioApi {
 
     @PUT
     @Path("/{id}")
-    public Response atualizarUsuario(@PathParam("id") long id, UsuarioDTO usuarioDTO) {
+    public Response atualizar(@PathParam("id") long id, AcessibilidadeDTO acessibilidadeDTO) {
         try {
-            usuarioService.atualizarUsuario(id, new Usuario(usuarioDTO));
-            var usuario = usuarioService.buscarPorId(id);
+            var acessibilidade = acessibilidadeService.atualizar(id, new Acessibilidade(acessibilidadeDTO.getDescricao()));
 
             return Response.status(Response.Status.OK)
-                    .entity(usuario)
+                    .entity(acessibilidade)
                     .type(MediaType.APPLICATION_JSON)
                     .build();
         } catch (ValidationException e) {
@@ -82,32 +81,12 @@ public class UsuarioApi {
     @Path("/{id}")
     public Response deletarPorId(@PathParam("id") long id) {
         try {
-            usuarioService.deletarPorId(id);
+            acessibilidadeService.deletarPorId(id);
 
             return Response.status(Response.Status.OK)
-                    .entity("Usuário deletado")
+                    .entity("Acessiblidade deletada")
                     .type(MediaType.APPLICATION_JSON)
                     .build();
-        } catch (ValidationException e) {
-            throw new ResponseException(e.getMessage(), e);
-        }
-    }
-
-    @PUT
-    @Path("/senha")
-    public void alterarSenha(AlterarSenhaRequest alterarSenha) {
-        try {
-            usuarioService.alterarSenha(alterarSenha.getId(), alterarSenha.getSenhaAtual(), alterarSenha.getSenhaNova());
-        } catch (ValidationException e) {
-            throw new ResponseException(e.getMessage(), e);
-        }
-    }
-
-    @POST
-    @Path("/senha/{email}")
-    public String recuperarSenha(@PathParam("email") String email) {
-        try {
-            return usuarioService.recuperarSenha(email);
         } catch (ValidationException e) {
             throw new ResponseException(e.getMessage(), e);
         }

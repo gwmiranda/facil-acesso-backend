@@ -27,7 +27,7 @@ public class UsuarioService {
 
     @Transactional
     public List<Usuario> buscarTodosUsuarios() {
-        return usuarioRepository.findAll().stream().toList();
+        return usuarioRepository.buscarTodos();
     }
 
     @Transactional
@@ -42,20 +42,18 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario atualizarUsuario(long id, Usuario usuario) throws ValidationException {
+    public void atualizarUsuario(long id, Usuario usuario) throws ValidationException {
         var usuarioBuscado = buscarPorId(id);
 
         usuarioBuscado.setLogin(usuario.getLogin());
         usuarioBuscado.setSenha(usuario.getSenha());
         usuarioBuscado.setTelefone(usuario.getTelefone());
-        usuarioBuscado.setAcessibilidade(usuario.getAcessibilidade());
+        usuarioBuscado.setAcessibilidades(usuario.getAcessibilidades());
         usuarioBuscado.setDataNascimento(usuario.getDataNascimento());
         usuarioBuscado.setDataEdicao(Instant.now());
         usuarioBuscado.setEmail(usuario.getEmail());
 
-        usuarioRepository.persist(usuarioBuscado);
-
-        return buscarPorId(id);
+        usuarioRepository.persistAndFlush(usuarioBuscado);
     }
 
     @Transactional
