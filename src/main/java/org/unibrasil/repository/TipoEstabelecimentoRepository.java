@@ -2,7 +2,6 @@ package org.unibrasil.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.unibrasil.entity.Acessibilidade;
 import org.unibrasil.entity.TipoEstabelecimento;
 
 import java.util.List;

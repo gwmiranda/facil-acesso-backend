@@ -1,9 +1,7 @@
 package org.unibrasil.entity;
 
 import jakarta.persistence.*;
-import org.unibrasil.entity.dto.TipoEstabelecimentoDTO;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
