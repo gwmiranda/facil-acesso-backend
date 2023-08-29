@@ -39,13 +39,13 @@ public class AcessibilidadeService {
 
     @Transactional
     public Acessibilidade buscarPorId(long id) throws ValidationException {
-        var usuario = acessibilidadeRepository.findById(id);
+        var acessibilidade = acessibilidadeRepository.findById(id);
 
-        if (usuario == null) {
+        if (acessibilidade == null) {
             throw new ValidationException("Acessibilidade não encontrado");
         }
 
-        return usuario;
+        return acessibilidade;
     }
 
     @Transactional
