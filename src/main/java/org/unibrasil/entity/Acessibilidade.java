@@ -3,6 +3,7 @@ package org.unibrasil.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,9 @@ public class Acessibilidade {
 
     @ManyToMany(mappedBy = "acessibilidades")
     private List<Usuario> usuario;
+
+    @OneToMany(mappedBy = "acessibilidade")
+    private List<Comentario> comentarios = new ArrayList<>();
 
     public Acessibilidade() {
     }

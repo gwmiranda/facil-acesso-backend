@@ -5,6 +5,7 @@ import org.unibrasil.entity.dto.UsuarioDTO;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,9 @@ public class Usuario {
     private Instant dataEdicao;
     private Instant dataRemocao;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<Comentario> comentarios = new ArrayList<>();
+
     public Usuario() {
     }
 
@@ -45,6 +49,10 @@ public class Usuario {
         this.acessibilidades = usuarioDTO.getAcessibilidade().stream().map(Acessibilidade::new).collect(Collectors.toList());
         this.dataNascimento = usuarioDTO.getDataNascimento();
         this.email = usuarioDTO.getEmail();
+    }
+
+    public Usuario(long id) {
+        this.id = id;
     }
 
     public long getId() {

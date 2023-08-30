@@ -3,6 +3,8 @@ package org.unibrasil.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class TipoEstabelecimento {
@@ -17,7 +19,14 @@ public class TipoEstabelecimento {
     private LocalDateTime dataEdicao;
     private LocalDateTime dataRemocao;
 
+    @OneToMany(mappedBy = "estabelecimento")
+    private List<Comentario> comentarios = new ArrayList<>();
+
     public TipoEstabelecimento() {}
+
+    public TipoEstabelecimento(long id) {
+        this.id = id;
+    }
 
     public TipoEstabelecimento(String descricao) {
         this.descricao = descricao;
