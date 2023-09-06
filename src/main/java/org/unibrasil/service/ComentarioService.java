@@ -4,9 +4,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.xml.bind.ValidationException;
-import org.unibrasil.entity.Acessibilidade;
 import org.unibrasil.entity.Comentario;
-import org.unibrasil.entity.Usuario;
+import org.unibrasil.entity.response.ComentarioFavoritadoResponse;
+import org.unibrasil.entity.response.ComentarioResponse;
 import org.unibrasil.repository.AcessibilidadeRepository;
 import org.unibrasil.repository.ComentarioRepository;
 import org.unibrasil.repository.TipoEstabelecimentoRepository;
@@ -15,6 +15,7 @@ import org.unibrasil.repository.UsuarioRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ComentarioService {
@@ -59,7 +60,7 @@ public class ComentarioService {
     public Comentario atualizar(long id, Comentario comentario) throws ValidationException {
         validarComentario(comentario);
 
-        var comentarioBuscado = buscarPorId(id);
+        var comentarioBuscado = comentarioRepository.findById(id);
 
         comentarioBuscado.setEstabelecimento(comentario.getEstabelecimento());
         comentarioBuscado.setAcessibilidade(comentario.getAcessibilidade());
@@ -75,23 +76,18 @@ public class ComentarioService {
         comentarioBuscado.setDataEdicao(LocalDateTime.now());
         comentarioRepository.persist(comentarioBuscado);
 
-        return buscarPorId(id);
+        return comentarioRepository.findById(id);
     }
 
     @Transactional
-    public List<Comentario> buscarTodosComentarios() {
-        return comentarioRepository.buscarTodos();
-    }
-
-    @Transactional
-    public Comentario buscarPorId(long id) throws ValidationException {
+    public ComentarioResponse buscarPorId(long id) throws ValidationException {
         var comentario = comentarioRepository.findById(id);
 
         if (comentario == null) {
             throw new ValidationException("Comentario não encontrado");
         }
 
-        return comentario;
+        return new ComentarioResponse(comentario);
     }
 
     @Transactional
@@ -104,6 +100,17 @@ public class ComentarioService {
 
         comentario.setDataRemocao(LocalDateTime.now());
         comentarioRepository.persist(comentario);
+    }
+
+    @Transactional
+    public List<ComentarioResponse> buscarComentariosPorUsuario(long id) throws ValidationException {
+        var comentarios = comentarioRepository.buscarComentariosPorUsuario(id);
+
+        if (comentarios == null) {
+            throw new ValidationException("Comentario não encontrado");
+        }
+
+        return comentarios.stream().map(ComentarioResponse::new).collect(Collectors.toList());
     }
 
     private void validarComentario(Comentario comentario) throws ValidationException {
@@ -162,5 +169,12 @@ public class ComentarioService {
         if (!camposInvalidos.isEmpty()) {
             throw new ValidationException("Campos inválidos: " + String.join(", ", camposInvalidos));
         }
+    }
+
+    public List<ComentarioFavoritadoResponse> buscarComentariosFavoritos(long idUsuario) {
+        var comentarios = comentarioRepository.buscarComentariosFavoritadosPorUsuario(idUsuario);
+        return comentarios.stream()
+                .map(f -> new ComentarioFavoritadoResponse(f.getId(), f.getComentario(), f.getAcessibilidade(), f.getDataCriacao(), f.getDataRemocao()))
+                .toList();
     }
 }

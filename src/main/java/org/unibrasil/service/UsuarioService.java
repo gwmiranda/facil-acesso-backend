@@ -5,11 +5,13 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.xml.bind.ValidationException;
 import org.unibrasil.entity.Usuario;
+import org.unibrasil.entity.response.UsuarioResponse;
 import org.unibrasil.repository.UsuarioRepository;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class UsuarioService {
@@ -26,24 +28,25 @@ public class UsuarioService {
     }
 
     @Transactional
-    public List<Usuario> buscarTodosUsuarios() {
-        return usuarioRepository.buscarTodos();
+    public List<UsuarioResponse> buscarTodosUsuarios() {
+        var todosUsuario = usuarioRepository.buscarTodos();
+        return todosUsuario.stream().map(UsuarioResponse::new).collect(Collectors.toList());
     }
 
     @Transactional
-    public Usuario buscarPorId(long id) throws ValidationException {
+    public UsuarioResponse buscarPorId(long id) throws ValidationException {
         var usuario = usuarioRepository.findById(id);
 
         if (usuario == null) {
             throw new ValidationException("Usuário não encontrado");
         }
 
-        return usuario;
+        return new UsuarioResponse(usuario);
     }
 
     @Transactional
     public void atualizarUsuario(long id, Usuario usuario) throws ValidationException {
-        var usuarioBuscado = buscarPorId(id);
+        var usuarioBuscado = usuarioRepository.findById(id);
 
         usuarioBuscado.setLogin(usuario.getLogin());
         usuarioBuscado.setSenha(usuario.getSenha());
@@ -57,13 +60,15 @@ public class UsuarioService {
     }
 
     @Transactional
-    public boolean deletarPorId(long id) throws ValidationException {
+    public void deletarPorId(long id) throws ValidationException {
         var usuario = usuarioRepository.findById(id);
 
         if (usuario == null) {
             throw new ValidationException("Usuario não encontrado para deleção");
         }
-        return usuarioRepository.deleteById(id);
+
+        usuario.setDataRemocao(Instant.now());
+        usuarioRepository.persist(usuario);
     }
 
     @Transactional

@@ -9,9 +9,7 @@ import jakarta.xml.bind.ValidationException;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 import org.unibrasil.api.exception.ErrorResponse;
 import org.unibrasil.api.exception.ResponseException;
-import org.unibrasil.entity.Acessibilidade;
 import org.unibrasil.entity.Comentario;
-import org.unibrasil.entity.dto.AcessibilidadeDTO;
 import org.unibrasil.entity.dto.ComentarioDTO;
 import org.unibrasil.service.ComentarioService;
 
@@ -55,16 +53,6 @@ public class ComentarioApi {
     }
 
     @GET
-    public Response buscarTodos() {
-        var comentarios = comentarioService.buscarTodosComentarios();
-
-        return Response.status(Response.Status.OK)
-                .entity(comentarios)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
-    }
-
-    @GET
     @Path("/{id}")
     public Response buscarPorId(@PathParam("id") long id) {
         try {
@@ -77,6 +65,32 @@ public class ComentarioApi {
         } catch (ValidationException e) {
             throw new ResponseException(e.getMessage(), e);
         }
+    }
+
+    @GET
+    @Path("/usuario/{id}")
+    public Response buscarComentarioPorUsuario(@PathParam("id") long id) {
+        try {
+            var comentarios = comentarioService.buscarComentariosPorUsuario(id);
+
+            return Response.status(Response.Status.OK)
+                    .entity(comentarios)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (ValidationException e) {
+            throw new ResponseException(e.getMessage(), e);
+        }
+    }
+
+    @GET
+    @Path( "/favorito/{id}")
+    public Response buscarFavoritoPorUsuario(@PathParam("id") long idUsuario) {
+        var favoritos = comentarioService.buscarComentariosFavoritos(idUsuario);
+
+        return Response.status(Response.Status.OK)
+                .entity(favoritos)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @DELETE

@@ -1,34 +1,18 @@
-package org.unibrasil.entity;
+package org.unibrasil.entity.response;
 
-import jakarta.persistence.*;
-import org.unibrasil.entity.dto.ComentarioDTO;
+import org.unibrasil.entity.Acessibilidade;
+import org.unibrasil.entity.Comentario;
+import org.unibrasil.entity.TipoEstabelecimento;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity
-public class Comentario {
+public class ComentarioResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private Long idComentario;
-    @ManyToOne
-    @JoinColumn(name = "estabelecimento_id")
     private TipoEstabelecimento estabelecimento;
-
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "acessibilidade_id")
+    private long usuario;
     private Acessibilidade acessibilidade;
-
-    @OneToMany(mappedBy = "comentario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Favorito> favoritos = new ArrayList<>();
-
     private String complemento;
     private String rua;
     private int numero;
@@ -42,29 +26,28 @@ public class Comentario {
     private LocalDateTime dataEdicao;
     private LocalDateTime dataRemocao;
 
-
-
-    public Comentario() {
+    public ComentarioResponse() {
     }
 
-    public Comentario(int id) {
+    public ComentarioResponse(int id) {
         this.id = id;
     }
 
-    public Comentario(ComentarioDTO dto) {
-            this.idComentario = dto.getIdComentario();
-            this.estabelecimento = new TipoEstabelecimento(dto.getEstabelecimentoId());
-            this.complemento = dto.getComplemento();
-            this.rua = dto.getRua();
-            this.numero = dto.getNumero();
-            this.bairro = dto.getBairro();
-            this.estado = dto.getEstado();
-            this.cidade = dto.getCidade();
-            this.cep = dto.getCep();
-            this.nivelSatisfacao = dto.getNivelSatisfacao();
-            this.comentario = dto.getComentario();
-            this.usuario = new Usuario(dto.getUsuario());
-            this.acessibilidade = new Acessibilidade(dto.getAcessibilidade());
+    public ComentarioResponse(Comentario comentario) {
+            this.id = comentario.getId();
+            this.idComentario = comentario.getIdComentario();
+            this.estabelecimento = comentario.getEstabelecimento();
+            this.complemento = comentario.getComplemento();
+            this.rua = comentario.getRua();
+            this.numero = comentario.getNumero();
+            this.bairro = comentario.getBairro();
+            this.estado = comentario.getEstado();
+            this.cidade = comentario.getCidade();
+            this.cep = comentario.getCep();
+            this.nivelSatisfacao = comentario.getNivelSatisfacao();
+            this.comentario = comentario.getComentario();
+            this.usuario = comentario.getId();
+            this.acessibilidade = comentario.getAcessibilidade();
     }
 
     public long getId() {
@@ -183,11 +166,11 @@ public class Comentario {
         this.dataRemocao = dataRemocao;
     }
 
-    public Usuario getUsuario() {
+    public long getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(long usuario) {
         this.usuario = usuario;
     }
 
@@ -197,13 +180,5 @@ public class Comentario {
 
     public void setAcessibilidade(Acessibilidade acessibilidade) {
         this.acessibilidade = acessibilidade;
-    }
-
-    public List<Favorito> getFavoritos() {
-        return favoritos;
-    }
-
-    public void setFavoritos(List<Favorito> favoritos) {
-        this.favoritos = favoritos;
     }
 }
