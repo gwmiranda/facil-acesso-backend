@@ -22,6 +22,7 @@ public class ComentarioResponse {
     private String cep;
     private Integer nivelSatisfacao;
     private String comentario;
+    private Integer curtidas;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataEdicao;
     private LocalDateTime dataRemocao;
@@ -48,6 +49,10 @@ public class ComentarioResponse {
             this.comentario = comentario.getComentario();
             this.usuario = comentario.getId();
             this.acessibilidade = comentario.getAcessibilidade();
+            this.curtidas = comentario.getCurtidas().size();
+            this.dataCriacao = comentario.getDataCriacao();
+            this.dataEdicao = comentario.getDataEdicao();
+            this.dataRemocao = comentario.getDataRemocao();
     }
 
     public long getId() {
@@ -180,5 +185,13 @@ public class ComentarioResponse {
 
     public void setAcessibilidade(Acessibilidade acessibilidade) {
         this.acessibilidade = acessibilidade;
+    }
+
+    public Integer getCurtidas() {
+        return curtidas;
+    }
+
+    public void setCurtidas(Integer curtidas) {
+        this.curtidas = curtidas;
     }
 }

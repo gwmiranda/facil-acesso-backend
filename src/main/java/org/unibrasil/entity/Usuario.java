@@ -41,6 +41,10 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favorito> favoritos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuario")
+    private List<Curtida> curtidas = new ArrayList<>();
+
+
     public Usuario() {
     }
 
@@ -156,5 +160,13 @@ public class Usuario {
 
     public void setFavoritos(List<Favorito> favoritos) {
         this.favoritos = favoritos;
+    }
+
+    public List<Curtida> getCurtidas() {
+        return curtidas;
+    }
+
+    public void setCurtidas(List<Curtida> curtidas) {
+        this.curtidas = curtidas;
     }
 }

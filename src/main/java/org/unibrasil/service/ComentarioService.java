@@ -174,7 +174,14 @@ public class ComentarioService {
     public List<ComentarioFavoritadoResponse> buscarComentariosFavoritos(long idUsuario) {
         var comentarios = comentarioRepository.buscarComentariosFavoritadosPorUsuario(idUsuario);
         return comentarios.stream()
-                .map(f -> new ComentarioFavoritadoResponse(f.getId(), f.getComentario(), f.getAcessibilidade(), f.getDataCriacao(), f.getDataRemocao()))
+                .map(f ->
+                        new ComentarioFavoritadoResponse(
+                                f.getId(),
+                                f.getComentario(),
+                                f.getAcessibilidade(),
+                                f.getDataCriacao(),
+                                f.getDataRemocao(),
+                                f.getCurtidas().size()))
                 .toList();
     }
 }

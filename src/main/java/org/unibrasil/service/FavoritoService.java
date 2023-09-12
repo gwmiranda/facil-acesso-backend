@@ -61,7 +61,8 @@ public class FavoritoService {
                 favorito.getComentario().getComentario(),
                 favorito.getComentario().getAcessibilidade(),
                 favorito.getComentario().getDataCriacao(),
-                favorito.getComentario().getDataRemocao());
+                favorito.getComentario().getDataRemocao(),
+                favorito.getComentario().getCurtidas().size());
     }
 
     @Transactional

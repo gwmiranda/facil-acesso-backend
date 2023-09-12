@@ -29,6 +29,10 @@ public class Comentario {
     @OneToMany(mappedBy = "comentario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favorito> favoritos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "comentario")
+    private List<Curtida> curtidas = new ArrayList<>();
+
+
     private String complemento;
     private String rua;
     private int numero;
@@ -205,5 +209,13 @@ public class Comentario {
 
     public void setFavoritos(List<Favorito> favoritos) {
         this.favoritos = favoritos;
+    }
+
+    public List<Curtida> getCurtidas() {
+        return curtidas;
+    }
+
+    public void setCurtidas(List<Curtida> curtidas) {
+        this.curtidas = curtidas;
     }
 }

@@ -8,15 +8,18 @@ public class ComentarioFavoritadoResponse {
     private long id;
     private String comentario;
     private Acessibilidade acessibilidade;
+    private int curtidas;
+
     private LocalDateTime dataCriacao;
     private LocalDateTime dataRemocao;
 
-    public ComentarioFavoritadoResponse(long id, String comentario, Acessibilidade acessibilidade, LocalDateTime dataCriacao, LocalDateTime dataRemocao) {
+    public ComentarioFavoritadoResponse(long id, String comentario, Acessibilidade acessibilidade, LocalDateTime dataCriacao, LocalDateTime dataRemocao, Integer curtidas) {
         this.id = id;
         this.comentario = comentario;
         this.acessibilidade = acessibilidade;
         this.dataCriacao = dataCriacao;
         this.dataRemocao = dataRemocao;
+        this.curtidas = curtidas;
     }
 
     public long getId() {
@@ -57,5 +60,13 @@ public class ComentarioFavoritadoResponse {
 
     public void setDataRemocao(LocalDateTime dataRemocao) {
         this.dataRemocao = dataRemocao;
+    }
+
+    public int getCurtidas() {
+        return curtidas;
+    }
+
+    public void setCurtidas(int curtidas) {
+        this.curtidas = curtidas;
     }
 }
