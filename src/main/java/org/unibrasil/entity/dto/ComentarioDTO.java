@@ -1,5 +1,7 @@
 package org.unibrasil.entity.dto;
 
+import java.util.List;
+
 public class ComentarioDTO {
     private Long idComentario;
     private long estabelecimentoId;
@@ -13,7 +15,8 @@ public class ComentarioDTO {
     private Integer nivelSatisfacao;
     private String comentario;
     private long usuario;
-    private long acessibilidade;
+    private List<Integer> acessibilidade;
+
 
     public Long getIdComentario() {
         return idComentario;
@@ -63,7 +66,7 @@ public class ComentarioDTO {
         return usuario;
     }
 
-    public long getAcessibilidade() {
+    public List<Integer> getAcessibilidade() {
         return acessibilidade;
     }
 }

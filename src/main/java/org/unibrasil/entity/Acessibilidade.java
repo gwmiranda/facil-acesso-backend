@@ -22,7 +22,7 @@ public class Acessibilidade {
     @ManyToMany(mappedBy = "acessibilidades")
     private List<Usuario> usuario;
 
-    @OneToMany(mappedBy = "acessibilidade")
+    @ManyToMany(mappedBy = "acessibilidades")
     private List<Comentario> comentarios = new ArrayList<>();
 
     public Acessibilidade() {

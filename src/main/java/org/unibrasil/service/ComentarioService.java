@@ -63,7 +63,7 @@ public class ComentarioService {
         var comentarioBuscado = comentarioRepository.findById(id);
 
         comentarioBuscado.setEstabelecimento(comentario.getEstabelecimento());
-        comentarioBuscado.setAcessibilidade(comentario.getAcessibilidade());
+        comentarioBuscado.setAcessibilidades(comentario.getAcessibilidades());
         comentarioBuscado.setComplemento(comentario.getComplemento());
         comentarioBuscado.setRua(comentario.getRua());
         comentarioBuscado.setNumero(comentario.getNumero());
@@ -116,12 +116,15 @@ public class ComentarioService {
     private void validarComentario(Comentario comentario) throws ValidationException {
         List<String> camposInvalidos = new ArrayList<>();
 
-        if (comentario.getAcessibilidade() != null) {
-            var acessibilidade = acessibilidadeRepository.findById(comentario.getAcessibilidade().getId());
+        if (comentario.getAcessibilidades() != null) {
+            comentario.getAcessibilidades().stream().forEach(a -> {
+                var acessibilidade = acessibilidadeRepository.findById(a.getId());
 
-            if (acessibilidade == null) {
-                camposInvalidos.add("Acessibilidade");
-            }
+                if (acessibilidade == null) {
+                    camposInvalidos.add("Acessibilidade");
+                }
+            });
+
         }
 
         var tipoEstabelecimentoId = tipoEstabelecimentoRepository.findById(comentario.getEstabelecimento().getId());
@@ -174,14 +177,7 @@ public class ComentarioService {
     public List<ComentarioFavoritadoResponse> buscarComentariosFavoritos(long idUsuario) {
         var comentarios = comentarioRepository.buscarComentariosFavoritadosPorUsuario(idUsuario);
         return comentarios.stream()
-                .map(f ->
-                        new ComentarioFavoritadoResponse(
-                                f.getId(),
-                                f.getComentario(),
-                                f.getAcessibilidade(),
-                                f.getDataCriacao(),
-                                f.getDataRemocao(),
-                                f.getCurtidas().size()))
-                .toList();
+                .map(ComentarioFavoritadoResponse::new)
+                .collect(Collectors.toList());
     }
 }

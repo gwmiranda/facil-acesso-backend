@@ -1,10 +1,11 @@
 package org.unibrasil.entity.response;
 
-import org.unibrasil.entity.Acessibilidade;
 import org.unibrasil.entity.Comentario;
 import org.unibrasil.entity.TipoEstabelecimento;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ComentarioResponse {
 
@@ -12,7 +13,7 @@ public class ComentarioResponse {
     private Long idComentario;
     private TipoEstabelecimento estabelecimento;
     private long usuario;
-    private Acessibilidade acessibilidade;
+    private List<AcessibilidadeResponse> acessibilidades;
     private String complemento;
     private String rua;
     private int numero;
@@ -48,7 +49,7 @@ public class ComentarioResponse {
             this.nivelSatisfacao = comentario.getNivelSatisfacao();
             this.comentario = comentario.getComentario();
             this.usuario = comentario.getId();
-            this.acessibilidade = comentario.getAcessibilidade();
+            this.acessibilidades = comentario.getAcessibilidades().stream().map(AcessibilidadeResponse::new).collect(Collectors.toList());
             this.curtidas = comentario.getCurtidas().size();
             this.dataCriacao = comentario.getDataCriacao();
             this.dataEdicao = comentario.getDataEdicao();
@@ -179,12 +180,12 @@ public class ComentarioResponse {
         this.usuario = usuario;
     }
 
-    public Acessibilidade getAcessibilidade() {
-        return acessibilidade;
+    public List<AcessibilidadeResponse> getAcessibilidade() {
+        return acessibilidades;
     }
 
-    public void setAcessibilidade(Acessibilidade acessibilidade) {
-        this.acessibilidade = acessibilidade;
+    public void setAcessibilidade(List<AcessibilidadeResponse> acessibilidade) {
+        this.acessibilidades = acessibilidade;
     }
 
     public Integer getCurtidas() {

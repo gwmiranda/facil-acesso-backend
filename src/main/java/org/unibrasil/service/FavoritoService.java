@@ -56,13 +56,7 @@ public class FavoritoService {
             throw new ValidationException("Comentário favoritado não encontrado");
         }
 
-        return new ComentarioFavoritadoResponse(
-                favorito.getComentario().getId(),
-                favorito.getComentario().getComentario(),
-                favorito.getComentario().getAcessibilidade(),
-                favorito.getComentario().getDataCriacao(),
-                favorito.getComentario().getDataRemocao(),
-                favorito.getComentario().getCurtidas().size());
+        return new ComentarioFavoritadoResponse(favorito.getComentario());
     }
 
     @Transactional

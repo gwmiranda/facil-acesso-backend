@@ -6,6 +6,7 @@ import org.unibrasil.entity.dto.ComentarioDTO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Comentario {
@@ -22,9 +23,13 @@ public class Comentario {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "acessibilidade_id")
-    private Acessibilidade acessibilidade;
+    @ManyToMany
+    @JoinTable(
+            name = "comentario_acessibilidade",
+            joinColumns = @JoinColumn(name = "comentario_id"),
+            inverseJoinColumns = @JoinColumn(name = "acessibilidade_id")
+    )
+    private List<Acessibilidade> acessibilidades = new ArrayList<>();
 
     @OneToMany(mappedBy = "comentario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favorito> favoritos = new ArrayList<>();
@@ -68,7 +73,7 @@ public class Comentario {
             this.nivelSatisfacao = dto.getNivelSatisfacao();
             this.comentario = dto.getComentario();
             this.usuario = new Usuario(dto.getUsuario());
-            this.acessibilidade = new Acessibilidade(dto.getAcessibilidade());
+            this.acessibilidades = dto.getAcessibilidade().stream().map(Acessibilidade::new).collect(Collectors.toList());
     }
 
     public long getId() {
@@ -195,12 +200,12 @@ public class Comentario {
         this.usuario = usuario;
     }
 
-    public Acessibilidade getAcessibilidade() {
-        return acessibilidade;
+    public List<Acessibilidade> getAcessibilidades() {
+        return acessibilidades;
     }
 
-    public void setAcessibilidade(Acessibilidade acessibilidade) {
-        this.acessibilidade = acessibilidade;
+    public void setAcessibilidades(List<Acessibilidade> acessibilidades) {
+        this.acessibilidades = acessibilidades;
     }
 
     public List<Favorito> getFavoritos() {

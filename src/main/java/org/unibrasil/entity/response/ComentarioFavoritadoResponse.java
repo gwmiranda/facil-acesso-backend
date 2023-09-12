@@ -1,25 +1,27 @@
 package org.unibrasil.entity.response;
 
-import org.unibrasil.entity.Acessibilidade;
+import org.unibrasil.entity.Comentario;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ComentarioFavoritadoResponse {
     private long id;
     private String comentario;
-    private Acessibilidade acessibilidade;
+    private List<AcessibilidadeResponse> acessibilidade;
     private int curtidas;
 
     private LocalDateTime dataCriacao;
     private LocalDateTime dataRemocao;
 
-    public ComentarioFavoritadoResponse(long id, String comentario, Acessibilidade acessibilidade, LocalDateTime dataCriacao, LocalDateTime dataRemocao, Integer curtidas) {
-        this.id = id;
-        this.comentario = comentario;
-        this.acessibilidade = acessibilidade;
-        this.dataCriacao = dataCriacao;
-        this.dataRemocao = dataRemocao;
-        this.curtidas = curtidas;
+    public ComentarioFavoritadoResponse(Comentario comentario) {
+        this.id = comentario.getId();
+        this.comentario = comentario.getComentario();
+        this.acessibilidade = comentario.getAcessibilidades().stream().map(AcessibilidadeResponse::new).collect(Collectors.toList());
+        this.dataCriacao = comentario.getDataCriacao();
+        this.dataRemocao = comentario.getDataRemocao();
+        this.curtidas = comentario.getCurtidas().size();
     }
 
     public long getId() {
@@ -38,11 +40,11 @@ public class ComentarioFavoritadoResponse {
         this.comentario = comentario;
     }
 
-    public Acessibilidade getAcessibilidade() {
+    public List<AcessibilidadeResponse> getAcessibilidade() {
         return acessibilidade;
     }
 
-    public void setAcessibilidade(Acessibilidade acessibilidade) {
+    public void setAcessibilidade(List<AcessibilidadeResponse> acessibilidade) {
         this.acessibilidade = acessibilidade;
     }
 
