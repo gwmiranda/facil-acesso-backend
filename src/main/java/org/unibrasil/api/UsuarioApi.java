@@ -23,7 +23,6 @@ public class UsuarioApi {
     UsuarioService usuarioService;
 
     @POST
-    @Authenticated
     public Response criarUsuario(UsuarioDTO usuarioDTO)  {
         try {
             usuarioService.criarUsuario(new Usuario(usuarioDTO));
