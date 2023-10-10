@@ -1,6 +1,6 @@
 package org.unibrasil.api;
 
-import jakarta.annotation.security.PermitAll;
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -10,7 +10,6 @@ import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 import org.unibrasil.api.exception.ErrorResponse;
 import org.unibrasil.api.exception.ResponseException;
 import org.unibrasil.entity.Acessibilidade;
-import org.unibrasil.entity.Usuario;
 import org.unibrasil.entity.dto.AcessibilidadeDTO;
 import org.unibrasil.service.AcessibilidadeService;
 
@@ -23,7 +22,7 @@ public class AcessibilidadeApi {
     AcessibilidadeService acessibilidadeService;
 
     @POST
-    @PermitAll
+    @Authenticated
     public Response criarAcessibilidade(AcessibilidadeDTO acessibilidadeDTO)  {
         try {
             acessibilidadeService.gravarAcessibilidade(new Acessibilidade(acessibilidadeDTO.getDescricao()));
@@ -38,6 +37,7 @@ public class AcessibilidadeApi {
     }
 
     @GET
+    @Authenticated
     public Response buscarTodos() {
         var acessibilidades = acessibilidadeService.buscarTodasAcessibilidades();
 
@@ -49,6 +49,7 @@ public class AcessibilidadeApi {
 
     @GET
     @Path("/{id}")
+    @Authenticated
     public Response buscarPorId(@PathParam("id") long id) {
         try {
             var acessibilidade = acessibilidadeService.buscarPorId(id);
@@ -64,6 +65,7 @@ public class AcessibilidadeApi {
 
     @PUT
     @Path("/{id}")
+    @Authenticated
     public Response atualizar(@PathParam("id") long id, AcessibilidadeDTO acessibilidadeDTO) {
         try {
             var acessibilidade = acessibilidadeService.atualizar(id, new Acessibilidade(acessibilidadeDTO.getDescricao()));
@@ -79,6 +81,7 @@ public class AcessibilidadeApi {
 
     @DELETE
     @Path("/{id}")
+    @Authenticated
     public Response deletarPorId(@PathParam("id") long id) {
         try {
             acessibilidadeService.deletarPorId(id);

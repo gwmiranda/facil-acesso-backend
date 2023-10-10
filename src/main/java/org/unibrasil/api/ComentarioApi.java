@@ -1,6 +1,6 @@
 package org.unibrasil.api;
 
-import jakarta.annotation.security.PermitAll;
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,7 +22,7 @@ public class ComentarioApi {
     ComentarioService comentarioService;
 
     @POST
-    @PermitAll
+    @Authenticated
     public Response criarComentario(ComentarioDTO comentarioDTO)  {
         try {
             comentarioService.gravarComentario(new Comentario(comentarioDTO));
@@ -38,6 +38,7 @@ public class ComentarioApi {
 
     @PUT
     @Path("/{id}")
+    @Authenticated
     public Response atualizar(@PathParam("id") long id, ComentarioDTO acessibilidadeDTO) {
         try {
             var comentario = comentarioService.atualizar(id, new Comentario(acessibilidadeDTO));
@@ -54,6 +55,7 @@ public class ComentarioApi {
 
     @GET
     @Path("/{id}")
+    @Authenticated
     public Response buscarPorId(@PathParam("id") long id) {
         try {
             var comentario = comentarioService.buscarPorId(id);
@@ -69,6 +71,7 @@ public class ComentarioApi {
 
     @GET
     @Path("/usuario/{id}")
+    @Authenticated
     public Response buscarComentarioPorUsuario(@PathParam("id") long id) {
         try {
             var comentarios = comentarioService.buscarComentariosPorUsuario(id);
@@ -84,6 +87,7 @@ public class ComentarioApi {
 
     @GET
     @Path( "/favorito/{id}")
+    @Authenticated
     public Response buscarFavoritoPorUsuario(@PathParam("id") long idUsuario) {
         var favoritos = comentarioService.buscarComentariosFavoritos(idUsuario);
 
@@ -95,6 +99,7 @@ public class ComentarioApi {
 
     @DELETE
     @Path("/{id}")
+    @Authenticated
     public Response deletarPorId(@PathParam("id") long id) {
         try {
             comentarioService.deletarPorId(id);

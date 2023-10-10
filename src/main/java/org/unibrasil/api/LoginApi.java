@@ -13,6 +13,7 @@ import org.unibrasil.api.exception.ErrorResponse;
 import org.unibrasil.api.exception.ResponseException;
 import org.unibrasil.entity.Auth;
 import org.unibrasil.entity.dto.UsuarioDTO;
+import org.unibrasil.entity.response.UsuarioResponse;
 import org.unibrasil.service.TokenService;
 import org.unibrasil.service.UsuarioService;
 
@@ -33,7 +34,7 @@ public class LoginApi {
             var usuario = usuarioService.realizarLogin(usuarioDTO.getLogin(), usuarioDTO.getSenha());
 
             var auth = new Auth();
-            auth.setNomeUsuario(usuario.getLogin());
+            auth.setUsuario(new UsuarioResponse(usuario));
             auth.setToken(tokenService.generate(usuario.getLogin()));
 
             return Response

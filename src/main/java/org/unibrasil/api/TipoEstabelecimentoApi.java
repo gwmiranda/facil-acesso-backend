@@ -1,6 +1,6 @@
 package org.unibrasil.api;
 
-import jakarta.annotation.security.PermitAll;
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,7 +22,7 @@ public class TipoEstabelecimentoApi {
     TipoEstabelecimentoService tipoEstabelecimentoService;
 
     @POST
-    @PermitAll
+    @Authenticated
     public Response criarTipoEstabelecimento(TipoEstabelecimentoDTO tipoEstabelecimentoDTO)  {
         try {
             tipoEstabelecimentoService.gravarTipoEstabelecimento(new TipoEstabelecimento(tipoEstabelecimentoDTO.getDescricao()));
@@ -37,6 +37,7 @@ public class TipoEstabelecimentoApi {
     }
 
     @GET
+    @Authenticated
     public Response buscarTodos() {
         var tipoEstabelecimentos = tipoEstabelecimentoService.buscarTodosTiposEstabelecimentos();
 
@@ -48,6 +49,7 @@ public class TipoEstabelecimentoApi {
 
     @GET
     @Path("/{id}")
+    @Authenticated
     public Response buscarPorId(@PathParam("id") long id) {
         try {
             var tipoEstabelecimento = tipoEstabelecimentoService.buscarPorId(id);
@@ -63,6 +65,7 @@ public class TipoEstabelecimentoApi {
 
     @PUT
     @Path("/{id}")
+    @Authenticated
     public Response atualizar(@PathParam("id") long id, TipoEstabelecimentoDTO tipoEstabelecimentoDTO) {
         try {
             var tipoEstabelecimento = tipoEstabelecimentoService.atualizar(id, new TipoEstabelecimento(tipoEstabelecimentoDTO.getDescricao()));
@@ -78,6 +81,7 @@ public class TipoEstabelecimentoApi {
 
     @DELETE
     @Path("/{id}")
+    @Authenticated
     public Response deletarPorId(@PathParam("id") long id) {
         try {
             tipoEstabelecimentoService.deletarPorId(id);

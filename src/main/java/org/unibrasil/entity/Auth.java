@@ -1,16 +1,22 @@
 package org.unibrasil.entity;
 
+import org.unibrasil.entity.response.UsuarioResponse;
+
 public class Auth {
 
-    private String nomeUsuario;
+    private UsuarioResponse usuario;
     private String token;
     private String tipoAutenticacao = "Bearer";
 
     public Auth() {
     }
 
-    public String getNomeUsuario() {
-        return this.nomeUsuario;
+    public UsuarioResponse getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioResponse usuario) {
+        this.usuario = usuario;
     }
 
     public String getToken() {
@@ -19,10 +25,6 @@ public class Auth {
 
     public String getTipoAutenticacao() {
         return this.tipoAutenticacao;
-    }
-
-    public void setNomeUsuario(String nomeUsuario) {
-        this.nomeUsuario = nomeUsuario;
     }
 
     public void setToken(String token) {

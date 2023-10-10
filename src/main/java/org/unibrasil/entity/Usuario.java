@@ -44,7 +44,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Curtida> curtidas = new ArrayList<>();
 
-
     public Usuario() {
     }
 

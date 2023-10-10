@@ -1,6 +1,6 @@
 package org.unibrasil.api;
 
-import jakarta.annotation.security.PermitAll;
+import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -23,7 +23,7 @@ public class UsuarioApi {
     UsuarioService usuarioService;
 
     @POST
-    @PermitAll
+    @Authenticated
     public Response criarUsuario(UsuarioDTO usuarioDTO)  {
         try {
             usuarioService.criarUsuario(new Usuario(usuarioDTO));
@@ -38,6 +38,7 @@ public class UsuarioApi {
     }
 
     @GET
+    @Authenticated
     public Response buscarTodos() {
         var usuarios = usuarioService.buscarTodosUsuarios();
 
@@ -49,6 +50,7 @@ public class UsuarioApi {
 
     @GET
     @Path("/{id}")
+    @Authenticated
     public Response buscarPorId(@PathParam("id") long id) {
         try {
             var usuario = usuarioService.buscarPorId(id);
@@ -64,6 +66,7 @@ public class UsuarioApi {
 
     @PUT
     @Path("/{id}")
+    @Authenticated
     public Response atualizarUsuario(@PathParam("id") long id, UsuarioDTO usuarioDTO) {
         try {
             usuarioService.atualizarUsuario(id, new Usuario(usuarioDTO));
@@ -80,6 +83,7 @@ public class UsuarioApi {
 
     @DELETE
     @Path("/{id}")
+    @Authenticated
     public Response deletarPorId(@PathParam("id") long id) {
         try {
             usuarioService.deletarPorId(id);
@@ -95,6 +99,7 @@ public class UsuarioApi {
 
     @PUT
     @Path("/senha")
+    @Authenticated
     public void alterarSenha(AlterarSenhaRequest alterarSenha) {
         try {
             usuarioService.alterarSenha(alterarSenha.getId(), alterarSenha.getSenhaAtual(), alterarSenha.getSenhaNova());
@@ -105,6 +110,7 @@ public class UsuarioApi {
 
     @POST
     @Path("/senha/{email}")
+    @Authenticated
     public String recuperarSenha(@PathParam("email") String email) {
         try {
             return usuarioService.recuperarSenha(email);
