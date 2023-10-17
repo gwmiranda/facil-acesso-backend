@@ -25,7 +25,7 @@ public class AcessibilidadeApi {
     @Authenticated
     public Response criarAcessibilidade(AcessibilidadeDTO acessibilidadeDTO)  {
         try {
-            acessibilidadeService.gravarAcessibilidade(new Acessibilidade(acessibilidadeDTO.getDescricao()));
+            acessibilidadeService.gravarAcessibilidade(new Acessibilidade(acessibilidadeDTO.getDescricao(), acessibilidadeDTO.getIcon()));
 
             return Response.status(Response.Status.CREATED)
                     .type(MediaType.APPLICATION_JSON)
@@ -68,7 +68,7 @@ public class AcessibilidadeApi {
     @Authenticated
     public Response atualizar(@PathParam("id") long id, AcessibilidadeDTO acessibilidadeDTO) {
         try {
-            var acessibilidade = acessibilidadeService.atualizar(id, new Acessibilidade(acessibilidadeDTO.getDescricao()));
+            var acessibilidade = acessibilidadeService.atualizar(id, new Acessibilidade(acessibilidadeDTO.getDescricao(), acessibilidadeDTO.getIcon()));
 
             return Response.status(Response.Status.OK)
                     .entity(acessibilidade)

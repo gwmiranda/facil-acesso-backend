@@ -23,9 +23,9 @@ public class TipoEstabelecimentoApi {
 
     @POST
     @Authenticated
-    public Response criarTipoEstabelecimento(TipoEstabelecimentoDTO tipoEstabelecimentoDTO)  {
+    public Response criarTipoEstabelecimento(TipoEstabelecimentoDTO dto)  {
         try {
-            tipoEstabelecimentoService.gravarTipoEstabelecimento(new TipoEstabelecimento(tipoEstabelecimentoDTO.getDescricao()));
+            tipoEstabelecimentoService.gravarTipoEstabelecimento(new TipoEstabelecimento(dto.getDescricao(), dto.getIcon()));
 
             return Response.status(Response.Status.CREATED)
                     .type(MediaType.APPLICATION_JSON)
@@ -68,7 +68,7 @@ public class TipoEstabelecimentoApi {
     @Authenticated
     public Response atualizar(@PathParam("id") long id, TipoEstabelecimentoDTO tipoEstabelecimentoDTO) {
         try {
-            var tipoEstabelecimento = tipoEstabelecimentoService.atualizar(id, new TipoEstabelecimento(tipoEstabelecimentoDTO.getDescricao()));
+            var tipoEstabelecimento = tipoEstabelecimentoService.atualizar(id, new TipoEstabelecimento(tipoEstabelecimentoDTO.getDescricao(), tipoEstabelecimentoDTO.getIcon()));
 
             return Response.status(Response.Status.OK)
                     .entity(tipoEstabelecimento)

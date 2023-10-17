@@ -18,6 +18,7 @@ public class Acessibilidade {
     private LocalDateTime dataCriacao;
     private LocalDateTime dataRemocao;
     private LocalDateTime dataEdicao;
+    private String icon;
 
     @ManyToMany(mappedBy = "acessibilidades")
     private List<Usuario> usuario;
@@ -32,8 +33,9 @@ public class Acessibilidade {
         this.id = id;
     }
 
-    public Acessibilidade(String descricao) {
+    public Acessibilidade(String descricao, String icon) {
         this.descricao = descricao;
+        this.icon = icon;
     }
 
     public long getId() {
@@ -70,5 +72,13 @@ public class Acessibilidade {
 
     public void setDataEdicao(LocalDateTime dataEdicao) {
         this.dataEdicao = dataEdicao;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

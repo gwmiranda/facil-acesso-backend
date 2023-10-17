@@ -22,6 +22,10 @@ public class TipoEstabelecimentoService {
             throw new ValidationException("Estabelecimento está vazio!");
         }
 
+        if (tipoEstabelecimento.getIcon().isBlank()) {
+            throw new ValidationException("Icon está vazio!");
+        }
+
         var tipoEstabelecimentoBuscada = repository.buscarAcessiblidadePorDescricao(tipoEstabelecimento.getDescricao());
 
         if (tipoEstabelecimentoBuscada.isPresent()) {

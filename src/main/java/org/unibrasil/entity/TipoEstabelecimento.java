@@ -18,6 +18,7 @@ public class TipoEstabelecimento {
     private LocalDateTime dataCriacao;
     private LocalDateTime dataEdicao;
     private LocalDateTime dataRemocao;
+    private String icon;
 
     @OneToMany(mappedBy = "estabelecimento")
     private List<Comentario> comentarios = new ArrayList<>();
@@ -28,8 +29,9 @@ public class TipoEstabelecimento {
         this.id = id;
     }
 
-    public TipoEstabelecimento(String descricao) {
+    public TipoEstabelecimento(String descricao, String icon) {
         this.descricao = descricao;
+        this.icon = icon;
     }
 
     public long getId() {
@@ -66,5 +68,13 @@ public class TipoEstabelecimento {
 
     public void setDataRemocao(LocalDateTime dataRemocao) {
         this.dataRemocao = dataRemocao;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

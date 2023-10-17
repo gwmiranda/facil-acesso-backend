@@ -22,6 +22,10 @@ public class AcessibilidadeService {
             throw new ValidationException("Acessiblidade está vazia!");
         }
 
+        if (acessibilidade.getIcon().isBlank()) {
+            throw new ValidationException("Icon está vazia!");
+        }
+
         var acessibilidadeBuscada = acessibilidadeRepository.buscarAcessiblidadePorDescricao(acessibilidade.getDescricao());
 
         if (acessibilidadeBuscada.isPresent()) {
