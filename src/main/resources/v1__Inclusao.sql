@@ -15,7 +15,7 @@ VALUES ('2023-10-16 10:00:00', 'Comércio', 'shopping-cart'),
        ('2023-10-15 09:30:00', 'Gastronomia', 'birthday-cake'),
        ('2023-10-14 14:15:00', 'Hotel', 'hotel'),
        ('2023-10-13 12:45:00', 'Financeiro', 'bank'),
-       ('2023-10-13 12:45:00', 'Educação', 'graduantion-cap'),
+       ('2023-10-13 12:45:00', 'Educação', 'graduation-cap'),
        ('2023-10-12 16:20:00', 'Lazer', 'music');
 
 -- Inserindo dados na tabela 'usuario'
