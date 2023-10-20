@@ -36,6 +36,17 @@ public class ComentarioApi {
         }
     }
 
+    @GET
+    @Authenticated
+    public Response buscarTodosComentarios() {
+        var comentarios = comentarioService.buscarTodosComentarios();
+
+        return Response.status(Response.Status.OK)
+                .entity(comentarios)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
+    }
+
     @PUT
     @Path("/{id}")
     @Authenticated

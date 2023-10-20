@@ -113,6 +113,13 @@ public class ComentarioService {
         return comentarios.stream().map(ComentarioResponse::new).collect(Collectors.toList());
     }
 
+    @Transactional
+    public List<ComentarioResponse> buscarTodosComentarios() {
+        var comentarios = comentarioRepository.findAll();
+
+        return comentarios.stream().map(ComentarioResponse::new).collect(Collectors.toList());
+    }
+
     private void validarComentario(Comentario comentario) throws ValidationException {
         List<String> camposInvalidos = new ArrayList<>();
 
