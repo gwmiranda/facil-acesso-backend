@@ -37,7 +37,7 @@ public class Comentario {
     @OneToMany(mappedBy = "comentario")
     private List<Curtida> curtidas = new ArrayList<>();
 
-
+    private String nomeEstabelecimento;
     private String complemento;
     private String rua;
     private int numero;
@@ -63,6 +63,7 @@ public class Comentario {
     public Comentario(ComentarioDTO dto) {
             this.idComentario = dto.getIdComentario();
             this.estabelecimento = new TipoEstabelecimento(dto.getEstabelecimentoId());
+            this.nomeEstabelecimento = dto.getNomeEstabelecimento();
             this.complemento = dto.getComplemento();
             this.rua = dto.getRua();
             this.numero = dto.getNumero();
@@ -222,5 +223,13 @@ public class Comentario {
 
     public void setCurtidas(List<Curtida> curtidas) {
         this.curtidas = curtidas;
+    }
+
+    public String getNomeEstabelecimento() {
+        return nomeEstabelecimento;
+    }
+
+    public void setNomeEstabelecimento(String nomeEstabelecimento) {
+        this.nomeEstabelecimento = nomeEstabelecimento;
     }
 }

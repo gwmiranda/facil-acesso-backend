@@ -5,6 +5,7 @@ import java.util.List;
 public class ComentarioDTO {
     private Long idComentario;
     private long estabelecimentoId;
+    private String nomeEstabelecimento;
     private String complemento;
     private String rua;
     private int numero;
@@ -68,5 +69,9 @@ public class ComentarioDTO {
 
     public List<Integer> getAcessibilidade() {
         return acessibilidade;
+    }
+
+    public String getNomeEstabelecimento() {
+        return nomeEstabelecimento;
     }
 }

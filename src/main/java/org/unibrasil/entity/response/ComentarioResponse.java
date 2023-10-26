@@ -12,6 +12,7 @@ public class ComentarioResponse {
     private long id;
     private Long idComentario;
     private TipoEstabelecimento estabelecimento;
+    private String nomeEstabelecimento;
     private long usuario;
     private List<AcessibilidadeResponse> acessibilidades;
     private String complemento;
@@ -40,6 +41,7 @@ public class ComentarioResponse {
             this.id = comentario.getId();
             this.idComentario = comentario.getIdComentario();
             this.estabelecimento = comentario.getEstabelecimento();
+            this.nomeEstabelecimento = comentario.getNomeEstabelecimento();
             this.complemento = comentario.getComplemento();
             this.rua = comentario.getRua();
             this.numero = comentario.getNumero();
@@ -210,5 +212,13 @@ public class ComentarioResponse {
 
     public void setCurtido(boolean curtido) {
         this.curtido = curtido;
+    }
+
+    public String getNomeEstabelecimento() {
+        return nomeEstabelecimento;
+    }
+
+    public void setNomeEstabelecimento(String nomeEstabelecimento) {
+        this.nomeEstabelecimento = nomeEstabelecimento;
     }
 }
