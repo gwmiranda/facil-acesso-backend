@@ -99,9 +99,10 @@ public class UsuarioApi {
     @PUT
     @Path("/senha")
     @Authenticated
-    public void alterarSenha(AlterarSenhaRequest alterarSenha) {
+    public Response alterarSenha(AlterarSenhaRequest alterarSenha) {
         try {
             usuarioService.alterarSenha(alterarSenha.getId(), alterarSenha.getSenhaAtual(), alterarSenha.getSenhaNova());
+            return buscarPorId(alterarSenha.getId());
         } catch (ValidationException e) {
             throw new ResponseException(e.getMessage(), e);
         }
