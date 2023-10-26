@@ -1,5 +1,6 @@
 package org.unibrasil.service;
 
+import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -31,6 +32,9 @@ public class ComentarioService {
 
     @Inject
     AcessibilidadeRepository acessibilidadeRepository;
+
+    @Inject
+    SecurityIdentity securityIdentity;
 
     @Transactional
     public void gravarComentario(Comentario comentario) throws ValidationException {
@@ -87,7 +91,7 @@ public class ComentarioService {
             throw new ValidationException("Comentario não encontrado");
         }
 
-        return new ComentarioResponse(comentario);
+        return new ComentarioResponse(comentario, securityIdentity.getPrincipal().getName());
     }
 
     @Transactional
@@ -110,14 +114,13 @@ public class ComentarioService {
             throw new ValidationException("Comentario não encontrado");
         }
 
-        return comentarios.stream().map(ComentarioResponse::new).collect(Collectors.toList());
+        return comentarios.stream().map(c -> new ComentarioResponse(c, securityIdentity.getPrincipal().getName())).collect(Collectors.toList());
     }
 
     @Transactional
     public List<ComentarioResponse> buscarTodosComentarios() {
         var comentarios = comentarioRepository.findAll();
-
-        return comentarios.stream().map(ComentarioResponse::new).collect(Collectors.toList());
+        return comentarios.stream().map(c -> new ComentarioResponse(c, securityIdentity.getPrincipal().getName())).collect(Collectors.toList());
     }
 
     private void validarComentario(Comentario comentario) throws ValidationException {

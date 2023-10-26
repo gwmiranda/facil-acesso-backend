@@ -24,6 +24,7 @@ public class ComentarioResponse {
     private Integer nivelSatisfacao;
     private String comentario;
     private Integer curtidas;
+    private boolean curtido;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataEdicao;
     private LocalDateTime dataRemocao;
@@ -35,7 +36,7 @@ public class ComentarioResponse {
         this.id = id;
     }
 
-    public ComentarioResponse(Comentario comentario) {
+    public ComentarioResponse(Comentario comentario, String loginUsuario) {
             this.id = comentario.getId();
             this.idComentario = comentario.getIdComentario();
             this.estabelecimento = comentario.getEstabelecimento();
@@ -51,9 +52,16 @@ public class ComentarioResponse {
             this.usuario = comentario.getId();
             this.acessibilidades = comentario.getAcessibilidades().stream().map(AcessibilidadeResponse::new).collect(Collectors.toList());
             this.curtidas = comentario.getCurtidas().size();
+            this.curtido = verificarComentarioCurtido(comentario, loginUsuario);
             this.dataCriacao = comentario.getDataCriacao();
             this.dataEdicao = comentario.getDataEdicao();
             this.dataRemocao = comentario.getDataRemocao();
+    }
+
+    private boolean verificarComentarioCurtido(Comentario comentario, String loginUsuario) {
+        return comentario.getCurtidas()
+                .stream()
+                .anyMatch(c -> c.getUsuario().getLogin().equals(loginUsuario));
     }
 
     public long getId() {
@@ -194,5 +202,13 @@ public class ComentarioResponse {
 
     public void setCurtidas(Integer curtidas) {
         this.curtidas = curtidas;
+    }
+
+    public boolean isCurtido() {
+        return curtido;
+    }
+
+    public void setCurtido(boolean curtido) {
+        this.curtido = curtido;
     }
 }
