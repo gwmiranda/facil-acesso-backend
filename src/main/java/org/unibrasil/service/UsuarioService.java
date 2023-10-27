@@ -49,7 +49,6 @@ public class UsuarioService {
         var usuarioBuscado = usuarioRepository.findById(id);
 
         usuarioBuscado.setLogin(usuario.getLogin());
-        usuarioBuscado.setSenha(usuario.getSenha());
         usuarioBuscado.setTelefone(usuario.getTelefone());
         usuarioBuscado.setAcessibilidades(usuario.getAcessibilidades());
         usuarioBuscado.setDataNascimento(usuario.getDataNascimento());
