@@ -49,14 +49,14 @@ public class FavoritoService {
     }
 
     @Transactional
-    public ComentarioFavoritadoResponse buscarPorId(long id) throws ValidationException {
+    public List<ComentarioFavoritadoResponse> buscarPorId(long id) throws ValidationException {
         var favorito = favoritoRepository.findById(id);
 
         if (favorito == null) {
             throw new ValidationException("Comentário favoritado não encontrado");
         }
 
-        return new ComentarioFavoritadoResponse(favorito.getComentario());
+        return List.of(new ComentarioFavoritadoResponse(favorito.getComentario()));
     }
 
     @Transactional

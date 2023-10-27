@@ -84,14 +84,14 @@ public class ComentarioService {
     }
 
     @Transactional
-    public ComentarioResponse buscarPorId(long id) throws ValidationException {
+    public List<ComentarioResponse> buscarPorId(long id) throws ValidationException {
         var comentario = comentarioRepository.findById(id);
 
         if (comentario == null) {
             throw new ValidationException("Comentario não encontrado");
         }
 
-        return new ComentarioResponse(comentario, securityIdentity.getPrincipal().getName());
+        return List.of(new ComentarioResponse(comentario, securityIdentity.getPrincipal().getName()));
     }
 
     @Transactional
