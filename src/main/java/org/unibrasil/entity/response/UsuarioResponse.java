@@ -11,7 +11,6 @@ public class UsuarioResponse {
 
     private long id;
     private String login;
-    private String senha;
     private String telefone;
     private String email;
     private String cpf;
@@ -27,7 +26,6 @@ public class UsuarioResponse {
     public UsuarioResponse(Usuario usuario) {
         this.id = usuario.getId();
         this.login = usuario.getLogin();
-        this.senha = usuario.getSenha();
         this.telefone = usuario.getTelefone();
         this.email = usuario.getEmail();
         this.cpf = usuario.getCpf();
@@ -52,14 +50,6 @@ public class UsuarioResponse {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getTelefone() {
