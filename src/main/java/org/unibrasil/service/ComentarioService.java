@@ -6,7 +6,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.xml.bind.ValidationException;
 import org.unibrasil.entity.Comentario;
-import org.unibrasil.entity.response.ComentarioFavoritadoResponse;
 import org.unibrasil.entity.response.ComentarioResponse;
 import org.unibrasil.repository.AcessibilidadeRepository;
 import org.unibrasil.repository.ComentarioRepository;
@@ -184,10 +183,10 @@ public class ComentarioService {
         }
     }
 
-    public List<ComentarioFavoritadoResponse> buscarComentariosFavoritos(long idUsuario) {
+    public List<ComentarioResponse> buscarComentariosFavoritos(long idUsuario) {
         var comentarios = comentarioRepository.buscarComentariosFavoritadosPorUsuario(idUsuario);
         return comentarios.stream()
-                .map(ComentarioFavoritadoResponse::new)
+                .map(c -> new ComentarioResponse(c, securityIdentity.getPrincipal().getName()))
                 .collect(Collectors.toList());
     }
 }
