@@ -29,15 +29,15 @@ VALUES ('12345678901', '2023-10-16 10:00:00', '1990-01-01', 'user1@example.com',
 -- Inserindo dados na tabela 'comentario'
 INSERT INTO comentario (bairro, cep, cidade, comentario, complemento, datacriacao, estado, idcomentario,
                         nivelsatisfacao, numero, rua, estabelecimento_id, usuario_id, nomeestabelecimento)
-VALUES ('Bairro1', '12345-678', 'Cidade1', 'Comentário 1', 'Complemento 1', '2023-10-16 10:00:00', 'Estado1', 1, 4, 123,
+VALUES ('Bairro1', '12345-678', 'Cidade1', 'Comentário 1', 'Complemento 1', '2023-10-16 10:00:00', 'Estado1', 1, 1, 123,
         'Rua1', 1, 1, 'Nome 1'),
-       ('Bairro2', '23456-789', 'Cidade2', 'Comentário 2', 'Complemento 2', '2023-10-15 09:30:00', 'Estado2', 2, 3, 234,
+       ('Bairro2', '23456-789', 'Cidade2', 'Comentário 2', 'Complemento 2', '2023-10-15 09:30:00', 'Estado2', 2, 2, 234,
         'Rua2', 2, 2, 'Nome 2'),
-       ('Bairro3', '34567-890', 'Cidade3', 'Comentário 3', 'Complemento 3', '2023-10-14 14:15:00', 'Estado3', 3, 5, 345,
+       ('Bairro3', '34567-890', 'Cidade3', 'Comentário 3', 'Complemento 3', '2023-10-14 14:15:00', 'Estado3', 3, 3, 345,
         'Rua3', 3, 3, 'Nome 3'),
-       ('Bairro4', '45678-901', 'Cidade4', 'Comentário 4', 'Complemento 4', '2023-10-13 12:45:00', 'Estado4', 4, 2, 456,
+       ('Bairro4', '45678-901', 'Cidade4', 'Comentário 4', 'Complemento 4', '2023-10-13 12:45:00', 'Estado4', 4, 1, 456,
         'Rua4', 4, 4, 'Nome 4'),
-       ('Bairro5', '56789-012', 'Cidade5', 'Comentário 5', 'Complemento 5', '2023-10-12 16:20:00', 'Estado5', 5, 4, 567,
+       ('Bairro5', '56789-012', 'Cidade5', 'Comentário 5', 'Complemento 5', '2023-10-12 16:20:00', 'Estado5', 5, 2, 567,
         'Rua5', 5, 5, 'Nome 5');
 
 -- Inserindo dados na tabela 'comentario_acessibilidade'
