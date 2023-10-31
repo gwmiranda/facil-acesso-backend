@@ -1,6 +1,5 @@
 package org.unibrasil.api;
 
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,7 +21,7 @@ public class FavoritoApi {
     FavoritoService favoritoService;
 
     @POST
-    @Authenticated
+    //@Authenticated
     public Response criarFavorito(FavoritoDTO favoritoDTO)  {
         try {
             favoritoService.gravarFavorito(new Favorito(favoritoDTO));
@@ -38,7 +37,7 @@ public class FavoritoApi {
 
     @GET
     @Path("/{id}")
-    @Authenticated
+    //@Authenticated
     public Response buscarFavoritoPorId(@PathParam("id") long id) {
         try {
             var favorito = favoritoService.buscarPorId(id);
@@ -54,7 +53,7 @@ public class FavoritoApi {
 
     @DELETE
     @Path("/{id}")
-    @Authenticated
+    //@Authenticated
     public Response deletarPorId(@PathParam("id") long id) {
         try {
             favoritoService.deletarPorId(id);

@@ -1,6 +1,5 @@
 package org.unibrasil.api;
 
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,7 +21,7 @@ public class CurtidaApi {
     CurtidaService curtidaService;
 
     @POST
-    @Authenticated
+    //@Authenticated
     public Response gravarCurtida(CurtidaDTO curtidaDTO)  {
         try {
             curtidaService.gravarCurtida(new Curtida(curtidaDTO));
@@ -37,7 +36,7 @@ public class CurtidaApi {
     }
 
     @DELETE
-    @Authenticated
+    //@Authenticated
     public Response deletarPorId(CurtidaDTO curtidaDTO) {
         try {
             curtidaService.deletarPorId(new Curtida(curtidaDTO));

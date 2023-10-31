@@ -1,6 +1,5 @@
 package org.unibrasil.api;
 
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,7 +21,7 @@ public class ComentarioApi {
     ComentarioService comentarioService;
 
     @POST
-    @Authenticated
+    //@Authenticated
     public Response criarComentario(ComentarioDTO comentarioDTO)  {
         try {
             comentarioService.gravarComentario(new Comentario(comentarioDTO));
@@ -37,7 +36,7 @@ public class ComentarioApi {
     }
 
     @GET
-    @Authenticated
+    //@Authenticated
     public Response buscarTodosComentarios() {
         var comentarios = comentarioService.buscarTodosComentarios();
 
@@ -49,7 +48,7 @@ public class ComentarioApi {
 
     @PUT
     @Path("/{id}")
-    @Authenticated
+    //@Authenticated
     public Response atualizar(@PathParam("id") long id, ComentarioDTO acessibilidadeDTO) {
         try {
             var comentario = comentarioService.atualizar(id, new Comentario(acessibilidadeDTO));
@@ -66,7 +65,7 @@ public class ComentarioApi {
 
     @GET
     @Path("/{id}")
-    @Authenticated
+    //@Authenticated
     public Response buscarPorId(@PathParam("id") long id) {
         try {
             var comentario = comentarioService.buscarPorId(id);
@@ -82,7 +81,7 @@ public class ComentarioApi {
 
     @GET
     @Path("/usuario/{id}")
-    @Authenticated
+    //@Authenticated
     public Response buscarComentarioPorUsuario(@PathParam("id") long id) {
         try {
             var comentarios = comentarioService.buscarComentariosPorUsuario(id);
@@ -98,7 +97,7 @@ public class ComentarioApi {
 
     @GET
     @Path( "/favorito/{id}")
-    @Authenticated
+    //@Authenticated
     public Response buscarFavoritoPorUsuario(@PathParam("id") long idUsuario) {
         var favoritos = comentarioService.buscarComentariosFavoritos(idUsuario);
 
@@ -110,7 +109,7 @@ public class ComentarioApi {
 
     @DELETE
     @Path("/{id}")
-    @Authenticated
+    //@Authenticated
     public Response deletarPorId(@PathParam("id") long id) {
         try {
             comentarioService.deletarPorId(id);

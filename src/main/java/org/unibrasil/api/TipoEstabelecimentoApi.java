@@ -1,6 +1,5 @@
 package org.unibrasil.api;
 
-import io.quarkus.security.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,7 +21,7 @@ public class TipoEstabelecimentoApi {
     TipoEstabelecimentoService tipoEstabelecimentoService;
 
     @POST
-    @Authenticated
+    //@Authenticated
     public Response criarTipoEstabelecimento(TipoEstabelecimentoDTO dto)  {
         try {
             tipoEstabelecimentoService.gravarTipoEstabelecimento(new TipoEstabelecimento(dto.getDescricao(), dto.getIcon()));
@@ -37,7 +36,7 @@ public class TipoEstabelecimentoApi {
     }
 
     @GET
-    @Authenticated
+    //@Authenticated
     public Response buscarTodos() {
         var tipoEstabelecimentos = tipoEstabelecimentoService.buscarTodosTiposEstabelecimentos();
 
@@ -49,7 +48,7 @@ public class TipoEstabelecimentoApi {
 
     @GET
     @Path("/{id}")
-    @Authenticated
+    //@Authenticated
     public Response buscarPorId(@PathParam("id") long id) {
         try {
             var tipoEstabelecimento = tipoEstabelecimentoService.buscarPorId(id);
@@ -65,7 +64,7 @@ public class TipoEstabelecimentoApi {
 
     @PUT
     @Path("/{id}")
-    @Authenticated
+    //@Authenticated
     public Response atualizar(@PathParam("id") long id, TipoEstabelecimentoDTO tipoEstabelecimentoDTO) {
         try {
             var tipoEstabelecimento = tipoEstabelecimentoService.atualizar(id, new TipoEstabelecimento(tipoEstabelecimentoDTO.getDescricao(), tipoEstabelecimentoDTO.getIcon()));
@@ -81,7 +80,7 @@ public class TipoEstabelecimentoApi {
 
     @DELETE
     @Path("/{id}")
-    @Authenticated
+    //@Authenticated
     public Response deletarPorId(@PathParam("id") long id) {
         try {
             tipoEstabelecimentoService.deletarPorId(id);
