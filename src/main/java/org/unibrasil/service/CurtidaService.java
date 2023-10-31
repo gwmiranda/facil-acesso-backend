@@ -4,7 +4,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.xml.bind.ValidationException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.unibrasil.entity.Curtida;
 import org.unibrasil.repository.ComentarioRepository;
 import org.unibrasil.repository.CurtidaRepository;
@@ -26,39 +25,40 @@ public class CurtidaService {
 
     @Transactional
     public void gravarCurtida(Curtida curtida) throws ValidationException {
-        try {
-            var usuario = usuarioRepository.findById(curtida.getUsuario().getId());
+        var usuario = usuarioRepository.findById(curtida.getUsuario().getId());
 
-            if (usuario == null) {
-                throw new ValidationException("Usuário não encontrado!");
-            }
-
-            var comentario = comentarioRepository.findById(curtida.getComentario().getId());
-
-            if (comentario == null) {
-                throw new ValidationException("Comentário não encontrado!");
-            }
-
-            curtida.setDataCriacao(LocalDateTime.now());
-            curtidaRepository.persist(curtida);
-        } catch (ConstraintViolationException ex) {
-            throw new ValidationException("Curtida já cadastrada!");
+        if (usuario == null) {
+            throw new ValidationException("Usuário não encontrado!");
         }
+
+        var comentario = comentarioRepository.findById(curtida.getComentario().getId());
+
+        if (comentario == null) {
+            throw new ValidationException("Comentário não encontrado!");
+        }
+
+        var curtidaBuscada = curtidaRepository.buscarPorUsuarioEComentario(curtida);
+
+        if (curtidaBuscada != null) {
+            throw new ValidationException("Curtida já realizada!");
+        }
+
+        curtida.setDataCriacao(LocalDateTime.now());
+        curtidaRepository.persist(curtida);
     }
 
     @Transactional
-    public void deletarPorId(long id) throws ValidationException {
-        var acessibilidade = curtidaRepository.findById(id);
+    public void deletarPorId(Curtida curtida) throws ValidationException {
+        var curtidaBuscada = curtidaRepository.buscarPorUsuarioEComentario(curtida);
 
-        if (acessibilidade == null) {
+        if (curtidaBuscada == null) {
             throw new ValidationException("Curtida não encontrada para deleção");
         }
 
-        if (acessibilidade.getDataRemocao() != null) {
+        if (curtidaBuscada.getDataRemocao() != null) {
             throw new ValidationException("Curtida já deletada");
         }
 
-        acessibilidade.setDataRemocao(LocalDateTime.now());
-        curtidaRepository.persist(acessibilidade);
+        curtidaRepository.delete(curtidaBuscada);
     }
 }

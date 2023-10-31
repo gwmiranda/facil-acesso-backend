@@ -1,6 +1,7 @@
 package org.unibrasil.api;
 
 import io.quarkus.security.Authenticated;
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -37,7 +38,7 @@ public class AcessibilidadeApi {
     }
 
     @GET
-    @Authenticated
+    @PermitAll
     public Response buscarTodos() {
         var acessibilidades = acessibilidadeService.buscarTodasAcessibilidades();
 

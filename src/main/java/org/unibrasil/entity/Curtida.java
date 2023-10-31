@@ -1,6 +1,9 @@
 package org.unibrasil.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import org.unibrasil.entity.dto.CurtidaDTO;
 
 import java.time.LocalDateTime;
@@ -9,14 +12,11 @@ import java.time.LocalDateTime;
 public class Curtida {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-
     @ManyToOne
     @JoinColumn(name = "comentario_id")
     private Comentario comentario;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
@@ -37,10 +37,6 @@ public class Curtida {
     public Curtida(CurtidaDTO curtidaDTO) {
         this.comentario = new Comentario(curtidaDTO.getIdComentario());
         this.usuario = new Usuario(curtidaDTO.getIdUsuario());
-    }
-
-    public long getId() {
-        return id;
     }
 
     public Comentario getComentario() {

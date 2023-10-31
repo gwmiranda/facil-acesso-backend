@@ -37,11 +37,10 @@ public class CurtidaApi {
     }
 
     @DELETE
-    @Path("/{id}")
     @Authenticated
-    public Response deletarPorId(@PathParam("id") long id) {
+    public Response deletarPorId(CurtidaDTO curtidaDTO) {
         try {
-            curtidaService.deletarPorId(id);
+            curtidaService.deletarPorId(new Curtida(curtidaDTO));
 
             return Response.status(Response.Status.OK)
                     .entity("Curtida deletado")
