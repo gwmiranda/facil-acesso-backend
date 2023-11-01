@@ -1,7 +1,10 @@
 package org.unibrasil.api;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.xml.bind.ValidationException;
@@ -22,31 +25,29 @@ public class CurtidaApi {
 
     @POST
     //@Authenticated
-    public Response gravarCurtida(CurtidaDTO curtidaDTO)  {
-        try {
-            curtidaService.gravarCurtida(new Curtida(curtidaDTO));
+    public Response curtir(CurtidaDTO curtidaDTO) {
+        if (curtidaDTO.isCurtido()) {
+            try {
+                curtidaService.gravarCurtida(new Curtida(curtidaDTO));
 
-            return Response.status(Response.Status.CREATED)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+                return Response.status(Response.Status.OK)
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
 
-        } catch (ValidationException e) {
-            throw new ResponseException(e.getMessage(), e);
-        }
-    }
+            } catch (ValidationException e) {
+                throw new ResponseException(e.getMessage(), e);
+            }
+        } else {
+            try {
+                curtidaService.deletarPorId(new Curtida(curtidaDTO));
 
-    @DELETE
-    //@Authenticated
-    public Response deletarPorId(CurtidaDTO curtidaDTO) {
-        try {
-            curtidaService.deletarPorId(new Curtida(curtidaDTO));
-
-            return Response.status(Response.Status.OK)
-                    .entity("Curtida deletado")
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
-        } catch (ValidationException e) {
-            throw new ResponseException(e.getMessage(), e);
+                return Response.status(Response.Status.OK)
+                        .entity("Curtida deletado")
+                        .type(MediaType.APPLICATION_JSON)
+                        .build();
+            } catch (ValidationException e) {
+                throw new ResponseException(e.getMessage(), e);
+            }
         }
     }
 

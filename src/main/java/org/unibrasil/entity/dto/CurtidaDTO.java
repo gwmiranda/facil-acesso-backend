@@ -3,10 +3,12 @@ package org.unibrasil.entity.dto;
 public class CurtidaDTO {
     private int idComentario;
     private int idUsuario;
+    private boolean curtido;
 
-    public CurtidaDTO(int idComentario, int idUsuario) {
+    public CurtidaDTO(int idComentario, int idUsuario, boolean curtido) {
         this.idComentario = idComentario;
         this.idUsuario = idUsuario;
+        this.curtido = curtido;
     }
 
     public int getIdComentario() {
@@ -25,4 +27,11 @@ public class CurtidaDTO {
         this.idUsuario = idUsuario;
     }
 
+    public boolean isCurtido() {
+        return curtido;
+    }
+
+    public void setCurtido(boolean curtido) {
+        this.curtido = curtido;
+    }
 }
