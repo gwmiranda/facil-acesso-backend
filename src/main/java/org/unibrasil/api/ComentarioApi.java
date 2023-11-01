@@ -36,9 +36,10 @@ public class ComentarioApi {
     }
 
     @GET
+    @Path("/{id}")
     //@Authenticated
-    public Response buscarTodosComentarios() {
-        var comentarios = comentarioService.buscarTodosComentarios();
+    public Response buscarTodosComentarios(@PathParam("id") long id) {
+        var comentarios = comentarioService.buscarTodosComentarios(id);
 
         return Response.status(Response.Status.OK)
                 .entity(comentarios)
@@ -47,12 +48,12 @@ public class ComentarioApi {
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/{id}/{idUsuario}")
     //@Authenticated
-    public Response atualizar(@PathParam("id") long id, ComentarioDTO acessibilidadeDTO) {
+    public Response atualizar(@PathParam("id") long id, @PathParam("idUsuario") long idUsuario,  ComentarioDTO acessibilidadeDTO) {
         try {
             var comentario = comentarioService.atualizar(id, new Comentario(acessibilidadeDTO));
-            var comentarioAlterado = comentarioService.buscarPorId(comentario.getId());
+            var comentarioAlterado = comentarioService.buscarPorId(comentario.getId(), idUsuario);
 
             return Response.status(Response.Status.OK)
                     .entity(comentarioAlterado)
@@ -64,11 +65,11 @@ public class ComentarioApi {
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/{id}/{idUsuario}")
     //@Authenticated
-    public Response buscarPorId(@PathParam("id") long id) {
+    public Response buscarPorId(@PathParam("id") long id, @PathParam("idUsuario") long idUsuario) {
         try {
-            var comentario = comentarioService.buscarPorId(id);
+            var comentario = comentarioService.buscarPorId(id, idUsuario);
 
             return Response.status(Response.Status.OK)
                     .entity(comentario)

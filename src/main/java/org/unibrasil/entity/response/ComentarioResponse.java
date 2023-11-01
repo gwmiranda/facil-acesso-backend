@@ -37,7 +37,7 @@ public class ComentarioResponse {
         this.id = id;
     }
 
-    public ComentarioResponse(Comentario comentario, String loginUsuario) {
+    public ComentarioResponse(Comentario comentario, long loginUsuario) {
             this.id = comentario.getId();
             this.idComentario = comentario.getIdComentario();
             this.estabelecimento = comentario.getEstabelecimento();
@@ -60,10 +60,10 @@ public class ComentarioResponse {
             this.dataRemocao = comentario.getDataRemocao();
     }
 
-    private boolean verificarComentarioCurtido(Comentario comentario, String loginUsuario) {
+    private boolean verificarComentarioCurtido(Comentario comentario, long idUsuario) {
         return comentario.getCurtidas()
                 .stream()
-                .anyMatch(c -> c.getUsuario().getLogin().equals(loginUsuario));
+                .anyMatch(c -> c.getUsuario().getId() == idUsuario);
     }
 
     public long getId() {

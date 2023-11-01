@@ -1,6 +1,5 @@
 package org.unibrasil.service;
 
-import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -31,9 +30,6 @@ public class ComentarioService {
 
     @Inject
     AcessibilidadeRepository acessibilidadeRepository;
-
-    @Inject
-    SecurityIdentity securityIdentity;
 
     @Transactional
     public void gravarComentario(Comentario comentario) throws ValidationException {
@@ -83,14 +79,14 @@ public class ComentarioService {
     }
 
     @Transactional
-    public List<ComentarioResponse> buscarPorId(long id) throws ValidationException {
+    public List<ComentarioResponse> buscarPorId(long id, long idUsuario) throws ValidationException {
         var comentario = comentarioRepository.findById(id);
 
         if (comentario == null) {
             throw new ValidationException("Comentario não encontrado");
         }
 
-        return List.of(new ComentarioResponse(comentario, securityIdentity.getPrincipal().getName()));
+        return List.of(new ComentarioResponse(comentario, idUsuario));
     }
 
     @Transactional
@@ -113,13 +109,13 @@ public class ComentarioService {
             throw new ValidationException("Comentario não encontrado");
         }
 
-        return comentarios.stream().map(c -> new ComentarioResponse(c, securityIdentity.getPrincipal().getName())).collect(Collectors.toList());
+        return comentarios.stream().map(c -> new ComentarioResponse(c, id)).collect(Collectors.toList());
     }
 
     @Transactional
-    public List<ComentarioResponse> buscarTodosComentarios() {
+    public List<ComentarioResponse> buscarTodosComentarios(long idUsuario) {
         var comentarios = comentarioRepository.findAll();
-        return comentarios.stream().map(c -> new ComentarioResponse(c, securityIdentity.getPrincipal().getName())).collect(Collectors.toList());
+        return comentarios.stream().map(c -> new ComentarioResponse(c, idUsuario)).collect(Collectors.toList());
     }
 
     private void validarComentario(Comentario comentario) throws ValidationException {
@@ -186,7 +182,7 @@ public class ComentarioService {
     public List<ComentarioResponse> buscarComentariosFavoritos(long idUsuario) {
         var comentarios = comentarioRepository.buscarComentariosFavoritadosPorUsuario(idUsuario);
         return comentarios.stream()
-                .map(c -> new ComentarioResponse(c, securityIdentity.getPrincipal().getName()))
+                .map(c -> new ComentarioResponse(c, idUsuario))
                 .collect(Collectors.toList());
     }
 }
